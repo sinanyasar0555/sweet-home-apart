@@ -121,4 +121,49 @@ document.querySelector('.newsletter-form').addEventListener('submit', function(e
     console.log('Newsletter kaydı:', email);
     alert('Bülten aboneliğiniz başarıyla gerçekleştirilmiştir.');
     this.reset();
+});
+
+// Mobil menü toggle işlevi
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            mainNav.classList.toggle('active');
+            
+            // Menü ikonunu değiştir
+            const icon = menuToggle.querySelector('i');
+            if (mainNav.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    }
+    
+    // Sayfa kaydırıldığında menüyü kapat
+    window.addEventListener('scroll', function() {
+        if (mainNav.classList.contains('active')) {
+            mainNav.classList.remove('active');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    });
+    
+    // Menü öğelerine tıklandığında menüyü kapat
+    const menuItems = mainNav.querySelectorAll('a');
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            if (mainNav.classList.contains('active')) {
+                mainNav.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    });
 }); 

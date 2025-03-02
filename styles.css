@@ -884,4 +884,176 @@ footer {
 /* Animasyon efektini kaldır */
 .contact-item:nth-child(2) {
     animation: none;
+}
+
+/* Mobil Uyumluluk İyileştirmeleri */
+
+/* Genel Mobil Ayarları */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .container {
+        padding: 0 15px;
+    }
+    
+    /* Hero Bölümü Mobil Ayarları */
+    .hero-content h2 {
+        font-size: 2.2rem;
+    }
+    
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+    
+    .hero-phone {
+        font-size: 1.3rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn {
+        width: 100%;
+        text-align: center;
+        padding: 12px 20px;
+    }
+    
+    /* Odalar Bölümü Mobil Ayarları */
+    .rooms-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .room-card {
+        max-width: 100%;
+    }
+    
+    .room-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .room-buttons a {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* Hizmetler Bölümü Mobil Ayarları */
+    .services-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* Galeri Bölümü Mobil Ayarları */
+    .gallery-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    /* İletişim Bölümü Mobil Ayarları */
+    .contact-item {
+        flex: 0 0 100%;
+        min-width: 100%;
+    }
+    
+    /* Modal Mobil Ayarları */
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+        margin: 10% auto;
+    }
+    
+    .room-images {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Küçük Mobil Cihazlar İçin Ek Ayarlar */
+@media (max-width: 480px) {
+    header {
+        padding: 10px 15px;
+    }
+    
+    .logo h1 {
+        font-size: 1.4rem;
+    }
+    
+    nav ul li {
+        margin-left: 15px;
+    }
+    
+    .gallery-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .newsletter-form {
+        flex-direction: column;
+    }
+    
+    .newsletter-form button {
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .whatsapp-button {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        right: 20px;
+        bottom: 20px;
+    }
+}
+
+/* Navigasyon Menüsü Mobil Uyumluluğu */
+@media (max-width: 768px) {
+    header {
+        position: relative;
+        padding: 15px;
+    }
+    
+    .mobile-menu-toggle {
+        display: block;
+        font-size: 1.5rem;
+        color: white;
+        background: none;
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+    }
+    
+    nav {
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+    
+    nav.active {
+        max-height: 300px;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+        margin-top: 15px;
+    }
+    
+    nav ul li {
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
 } 
