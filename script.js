@@ -1,3 +1,6 @@
+// Sweet Home Apart Otel - Script
+// Updated: 2024-03-03
+
 // Oda detayları için veri
 const roomDetails = {
     standart: {
@@ -68,51 +71,108 @@ const roomDetails = {
     }
 };
 
-// Modal işlemleri
-const modal = document.getElementById("roomDetailsModal");
-const modalContent = document.getElementById("roomDetailsContent");
-const closeBtn = document.getElementsByClassName("close")[0];
-
-// Oda detaylarını açma fonksiyonu
+// Modal işlemleri için fonksiyon
 function openRoomDetails(roomType) {
+    const modal = document.getElementById("roomDetailsModal");
+    const contentDiv = document.getElementById("roomDetailsContent");
     const room = roomDetails[roomType];
     
-    let featuresHTML = '';
-    room.features.forEach(feature => {
-        featuresHTML += `<li><i class="fas fa-check"></i> ${feature}</li>`;
-    });
-
-    let imagesHTML = '';
-    room.images.forEach(image => {
-        imagesHTML += `<img src="${image}" alt="${room.title}">`;
-    });
-
-    modalContent.innerHTML = `
+    if (!room) return;
+    
+    let html = `
         <h2>${room.title}</h2>
         <p class="room-description">${room.description}</p>
-        <div class="room-images">${imagesHTML}</div>
-        <h3>Oda Özellikleri</h3>
-        <ul class="features-list">${featuresHTML}</ul>
-        <div class="modal-buttons">
-            <a href="https://wa.me/905442898257" class="btn btn-whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i> Rezervasyon İçin WhatsApp
-            </a>
-        </div>
+        <div class="room-images">
     `;
-
+    
+    room.images.forEach(img => {
+        html += `<img src="${img}" alt="${room.title}">`;
+    });
+    
+    html += `</div><ul class="features-list">`;
+    
+    room.features.forEach(feature => {
+        html += `<li><i class="fas fa-check"></i> ${feature}</li>`;
+    });
+    
+    html += `</ul>`;
+    
+    contentDiv.innerHTML = html;
     modal.style.display = "block";
-}
-
-// Modal kapatma işlemleri
-closeBtn.onclick = function() {
-    modal.style.display = "none";
-}
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+    
+    // Modal kapatma işlemi
+    const closeBtn = document.getElementsByClassName("close")[0];
+    if (closeBtn) {
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        };
     }
+    
+    // Dışarı tıklayınca kapatma
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
 }
+
+// Mobil menü toggle
+document.addEventListener("DOMContentLoaded", function() {
+    const menuToggle = document.querySelector(".mobile-menu-toggle");
+    const nav = document.getElementById("main-nav");
+    
+    if (menuToggle && nav) {
+        menuToggle.addEventListener("click", function() {
+            nav.classList.toggle("active");
+        });
+    }
+    
+    // Menü öğelerine tıklandığında menüyü kapat (mobil görünümde)
+    const menuItems = document.querySelectorAll("#main-nav a");
+    menuItems.forEach(item => {
+        item.addEventListener("click", function() {
+            if (window.innerWidth <= 768) {
+                nav.classList.remove("active");
+            }
+        });
+    });
+    
+    // Sayfa yüklendiğinde ve yeniden boyutlandırıldığında galeri öğelerini düzenle
+    function adjustGalleryItems() {
+        const galleryItems = document.querySelectorAll(".gallery-item");
+        if (galleryItems.length > 0) {
+            // Galeri öğelerinin boyutlarını ayarla
+            galleryItems.forEach(item => {
+                // Mobil görünümde farklı aspect ratio
+                if (window.innerWidth <= 768) {
+                    item.style.paddingBottom = "75%"; // 4:3 oranı
+                } else {
+                    item.style.paddingBottom = "56.25%"; // 16:9 oranı
+                }
+            });
+        }
+    }
+    
+    // Sayfa yüklendiğinde çalıştır
+    adjustGalleryItems();
+    
+    // Pencere yeniden boyutlandırıldığında çalıştır
+    window.addEventListener("resize", adjustGalleryItems);
+});
+
+// Performans iyileştirmeleri
+// Resimlerin lazy loading ile yüklenmesi
+document.addEventListener("DOMContentLoaded", function() {
+    const images = document.querySelectorAll("img");
+    if ("loading" in HTMLImageElement.prototype) {
+        // Tarayıcı native lazy loading'i destekliyorsa
+        images.forEach(img => {
+            if (!img.hasAttribute("loading")) {
+                img.setAttribute("loading", "lazy");
+            }
+        });
+    }
+});
 
 // Newsletter form işlemleri
 document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
@@ -121,49 +181,4 @@ document.querySelector('.newsletter-form').addEventListener('submit', function(e
     console.log('Newsletter kaydı:', email);
     alert('Bülten aboneliğiniz başarıyla gerçekleştirilmiştir.');
     this.reset();
-});
-
-// Mobil menü toggle işlevi
-document.addEventListener('DOMContentLoaded', function() {
-    const menuToggle = document.querySelector('.mobile-menu-toggle');
-    const mainNav = document.getElementById('main-nav');
-    
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            mainNav.classList.toggle('active');
-            
-            // Menü ikonunu değiştir
-            const icon = menuToggle.querySelector('i');
-            if (mainNav.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-    }
-    
-    // Sayfa kaydırıldığında menüyü kapat
-    window.addEventListener('scroll', function() {
-        if (mainNav.classList.contains('active')) {
-            mainNav.classList.remove('active');
-            const icon = menuToggle.querySelector('i');
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-    });
-    
-    // Menü öğelerine tıklandığında menüyü kapat
-    const menuItems = mainNav.querySelectorAll('a');
-    menuItems.forEach(item => {
-        item.addEventListener('click', function() {
-            if (mainNav.classList.contains('active')) {
-                mainNav.classList.remove('active');
-                const icon = menuToggle.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-    });
 }); 
