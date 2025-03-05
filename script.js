@@ -5,7 +5,7 @@
 const roomDetails = {
     standart: {
         title: "14 Numaralı Daire",
-        description: "45m² genişliğinde, konforlu ve tam donanımlı dairemiz sizleri bekliyor.",
+        description: "65m² genişliğinde, konforlu ve tam donanımlı dairemiz sizleri bekliyor.",
         features: [
             "Double Yatak",
             "Oturma Alanı",
@@ -49,7 +49,7 @@ const roomDetails = {
     },
     suit: {
         title: "12 Numaralı Daire",
-        description: "85m² genişliğinde, geniş aileler için lüks ve konforlu dairemiz unutulmaz bir konaklama deneyimi sunuyor.",
+        description: "65m² genişliğinde, geniş aileler için lüks ve konforlu dairemiz unutulmaz bir konaklama deneyimi sunuyor.",
         features: [
             "Double Yatak",
             "Oturma Alanı",
@@ -181,4 +181,73 @@ document.querySelector('.newsletter-form').addEventListener('submit', function(e
     console.log('Newsletter kaydı:', email);
     alert('Bülten aboneliğiniz başarıyla gerçekleştirilmiştir.');
     this.reset();
+});
+
+// Müşteri Yorumları Slider
+document.addEventListener("DOMContentLoaded", function() {
+    const slider = document.querySelector('.testimonials-slider');
+    const prevBtn = document.querySelector('.testimonial-prev');
+    const nextBtn = document.querySelector('.testimonial-next');
+    
+    if (slider && prevBtn && nextBtn) {
+        const cardWidth = slider.querySelector('.testimonial-card').offsetWidth + 30; // 30 is gap
+        
+        prevBtn.addEventListener('click', function() {
+            slider.scrollBy({
+                left: -cardWidth,
+                behavior: 'smooth'
+            });
+        });
+        
+        nextBtn.addEventListener('click', function() {
+            slider.scrollBy({
+                left: cardWidth,
+                behavior: 'smooth'
+            });
+        });
+    }
+});
+
+// SSS Accordion
+document.addEventListener("DOMContentLoaded", function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', function() {
+            // Tüm diğer açık öğeleri kapat
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    otherItem.classList.remove('active');
+                }
+            });
+            
+            // Tıklanan öğeyi aç/kapat
+            item.classList.toggle('active');
+        });
+    });
+});
+
+// Sezon Tabları
+document.addEventListener("DOMContentLoaded", function() {
+    const seasonTabs = document.querySelectorAll('.season-tab');
+    const pricingTables = document.querySelectorAll('.pricing-table');
+    
+    if (seasonTabs.length > 0) {
+        seasonTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Aktif tab'ı güncelle
+                seasonTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // İlgili fiyat tablosunu göster
+                const season = this.getAttribute('data-season');
+                pricingTables.forEach(table => {
+                    table.classList.remove('active');
+                });
+                document.getElementById(`${season}-season`).classList.add('active');
+            });
+        });
+    }
 }); 
