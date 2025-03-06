@@ -71,6 +71,61 @@ const roomDetails = {
     }
 };
 
+// Çevredeki Yerler verilerini ekle
+const cevredekiYerler = [
+    {
+        id: "onur-aniti",
+        title: "Onur Anıtı",
+        image: "images/Onur_Anıtı.jpeg",
+        description: "Samsun'un simgesi olan tarihi Onur Anıtı.",
+        distance: "8 km"
+    },
+    {
+        id: "atakum-sahili",
+        title: "Atakum Sahili",
+        image: "images/atakumun-essiz-sahili.jpg",
+        description: "Karadeniz'in muhteşem manzarasını sunan sahil şeridi.",
+        distance: "25 metre"
+    },
+    {
+        id: "piazza-avm",
+        title: "Piazza AVM",
+        image: "images/piazza-samsun-avm.jpg",
+        description: "Modern alışveriş merkezi ve eğlence kompleksi.",
+        distance: "13 km"
+    },
+    {
+        id: "bandirma-gemi-muze",
+        title: "Bandırma Gemi-Müze",
+        image: "images/SAMSUN-BANDIRMA VAPURU-GÜLCAN ACAR (2).jpg",
+        description: "Türkiye Cumhuriyeti'nin kuruluşunda önemli rol oynayan, 1878 yılında inşa edilen tarihi Bandırma Gemisi."
+    },
+    {
+        id: "amisos-tepesi",
+        title: "Amisos Tepesi",
+        image: "images/c36a965f-61b8-4768-939d-74b398a25db0.jpg",
+        description: "MÖ 6. yüzyıldan itibaren dört aşamada gelişen, Karadeniz ile Anadolu'yu bağlayan önemli bir ticaret merkezi."
+    },
+    {
+        id: "gazi-muzesi",
+        title: "Gazi Müzesi",
+        image: "images/SAMSUN-GAZİ MÜZESİ-GÜLCAN ACAR (1) kopya.jpg",
+        description: "1902'de inşa edilen ve Mustafa Kemal Paşa'nın Samsun'a çıktığında kaldığı tarihi Mıntıka Palas Oteli."
+    },
+    {
+        id: "samsun-kent-muzesi",
+        title: "Samsun Kent Müzesi",
+        image: "images/20190531140715007_kent muzesi.jpeg",
+        description: "Samsun'un demiryolu tarihini yansıtan, Cumhuriyet döneminde devletleştirilen hatların hikayesini anlatan müze."
+    },
+    {
+        id: "amazon-koyu",
+        title: "Amazon Köyü",
+        image: "images/7464ed6d-1c65-41ad-834b-49d18c14dc09.jpeg",
+        description: "MÖ 3-2 bin yıllarında yaşamış Amazonların anısına İlkadım Batıpark'ta oluşturulan, balmumu heykelleriyle tarihi canlandıran köy."
+    }
+];
+
 // Modal işlemleri için fonksiyon
 function openRoomDetails(roomType) {
     const modal = document.getElementById("roomDetailsModal");
@@ -249,5 +304,58 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById(`${season}-season`).classList.add('active');
             });
         });
+    }
+});
+
+// Çevredeki Yerleri Sayfaya Ekle
+document.addEventListener("DOMContentLoaded", function() {
+    const attractionsContainer = document.getElementById("attractions-container");
+    
+    if (attractionsContainer) {
+        // Tüm çevredeki yerleri ekle
+        cevredekiYerler.forEach(attraction => {
+            const attractionCard = document.createElement("div");
+            attractionCard.className = "attraction-card";
+            
+            let distanceHTML = '';
+            if (attraction.distance) {
+                distanceHTML = `<p class="distance"><i class="fas fa-car"></i> ${attraction.distance}</p>`;
+            }
+            
+            attractionCard.innerHTML = `
+                <div class="attraction-image">
+                    <img src="${attraction.image}" alt="${attraction.title}" loading="lazy">
+                </div>
+                <div class="attraction-details">
+                    <h3>${attraction.title}</h3>
+                    ${distanceHTML}
+                    <p>${attraction.description}</p>
+                </div>
+            `;
+            
+            attractionsContainer.appendChild(attractionCard);
+        });
+        
+        // Kaydırma kontrolleri
+        const prevBtn = document.querySelector('.attraction-prev');
+        const nextBtn = document.querySelector('.attraction-next');
+        
+        if (prevBtn && nextBtn) {
+            const cardWidth = attractionsContainer.querySelector('.attraction-card').offsetWidth + 30; // 30 is gap
+            
+            prevBtn.addEventListener('click', function() {
+                attractionsContainer.scrollBy({
+                    left: -cardWidth,
+                    behavior: 'smooth'
+                });
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                attractionsContainer.scrollBy({
+                    left: cardWidth,
+                    behavior: 'smooth'
+                });
+            });
+        }
     }
 }); 
